@@ -1,0 +1,77 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  vaccination-record-system-mysql-server:
+    image: mysql:latest
+    platform: linux/x86_64
+    restart: unless-stopped
+    container_name: vaccination-record-system-mysql-server
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    volumes:
+      - vaccination-record-system-mysql-server:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 'Raven123qweasd*+'
+      MYSQL_DATABASE: 'raven-dev'
+      MYSQL_USER: 'raven-dev'
+      MYSQL_PASSWORD: 'raven-dev*+'
+    networks:
+      - vaccination-record-system-network
+
+  vaccination-record-system-migration-app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: vaccination-record-system-migration-app
+    restart: no
+    container_name: vaccination-record-system-migration-app
+    command: sh -c "sleep 10 && /main.bin migrate up"
+    depends_on:
+      - vaccination-record-system-mysql-server
+    environment:
+      GIN_MODE: 'release'
+      LOG_LEVEL: 'debug'
+      HOST: '0.0.0.0'
+      DATASOURCE_DRIVER: 'mysql'
+      DATASOURCE_USERNAME: 'root'
+      DATASOURCE_PASSWORD: 'Raven123qweasd*+'
+      DATASOURCE_SERVER: 'vaccination-record-system-mysql-server:3306'
+      DATASOURCE_SERVICE: 'raven-dev'
+      DATASOURCE_URL: ':username::password@tcp(:server)/:service?charset=utf8&multiStatements=true&parseTime=True&loc=Local'
+    networks:
+      - vaccination-record-system-network
+
+  vaccination-record-system-server-app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: vaccination-record-system-server-app
+    restart: unless-stopped
+    container_name: vaccination-record-system-server-app
+    depends_on:
+      - vaccination-record-system-migration-app
+    ports:
+      - "8080:8080"
+    environment:
+      GIN_MODE: 'release'
+      LOG_LEVEL: 'debug'
+      HOST: '0.0.0.0'
+      DATASOURCE_DRIVER: 'mysql'
+      DATASOURCE_USERNAME: 'root'
+      DATASOURCE_PASSWORD: 'Raven123qweasd*+'
+      DATASOURCE_SERVER: 'vaccination-record-system-mysql-server:3306'
+      DATASOURCE_SERVICE: 'raven-dev'
+      DATASOURCE_URL: ':username::password@tcp(:server)/:service?charset=utf8&multiStatements=true&parseTime=True&loc=Local'
+    networks:
+      - vaccination-record-system-network
+
+volumes:
+  vaccination-record-system-mysql-server:
+    name: vaccination-record-system-mysql-server
+
+networks:
+  vaccination-record-system-network:
+    name: vaccination-record-system-network
+    driver: bridge
+

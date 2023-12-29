@@ -5,6 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/guidomantilla/vaccination-record-system/cmd/migrate"
 	"github.com/guidomantilla/vaccination-record-system/cmd/serve"
 )
 
@@ -32,19 +33,14 @@ func createMigrateCmd() *cobra.Command {
 
 	migrateUpCmd := &cobra.Command{
 		Use: "up",
-		//Run: migrate.UpCmdFn,
-	}
-
-	migrateDownCmd := &cobra.Command{
-		Use: "down",
-		//Run: migrate.DownCmdFn,
+		Run: migrate.UpCmdFn,
 	}
 
 	migrateCmd := &cobra.Command{
 		Use: "migrate",
 	}
 
-	migrateCmd.AddCommand(migrateUpCmd, migrateDownCmd)
+	migrateCmd.AddCommand(migrateUpCmd)
 
 	return migrateCmd
 }
