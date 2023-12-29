@@ -3,6 +3,7 @@ module github.com/guidomantilla/vaccination-record-system
 go 1.21.1
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.1
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang-jwt/jwt/v5 v5.2.0
