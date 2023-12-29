@@ -6,6 +6,13 @@ import (
 	"github.com/guidomantilla/vaccination-record-system/pkg/models"
 )
 
+var (
+	_ TokenManager        = (*JwtTokenManager)(nil)
+	_ AuthService         = (*DefaultAuthService)(nil)
+	_ DrugsService        = (*DefaultDrugsService)(nil)
+	_ VaccinationsService = (*DefaultVaccinationsService)(nil)
+)
+
 type TokenManager interface {
 	Generate(user *models.User) (*string, error)
 	Validate(tokenString string) (*models.User, error)

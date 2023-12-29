@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var _ TransactionHandler = (*DefaultTransactionHandler)(nil)
+
 type TransactionHandlerFunction func(ctx context.Context, tx *gorm.DB) error
 
 type TransactionHandler interface {

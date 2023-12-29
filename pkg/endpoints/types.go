@@ -4,6 +4,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	_ AuthEndpoint         = (*DefaultAuthEndpoint)(nil)
+	_ DrugsEndpoint        = (*DefaultDrugsEndpoint)(nil)
+	_ VaccinationsEndpoint = (*DefaultVaccinationsEndpoint)(nil)
+)
+
 type AuthEndpoint interface {
 	Login(ctx *gin.Context)
 	Signup(ctx *gin.Context)
