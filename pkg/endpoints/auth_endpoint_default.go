@@ -92,7 +92,6 @@ func (endpoint *DefaultAuthEndpoint) Authorize(ctx *gin.Context) {
 
 	var err error
 	var userToAuthorize *models.User
-	//ctxWithResource := context.WithValue(ctx.Request.Context(), ResourceCtxKey{}, strings.Join(resource, " "))
 	if userToAuthorize, err = endpoint.authService.Authorize(ctx.Request.Context(), token); err != nil {
 		ex := feather_web_rest.UnauthorizedException(err.Error())
 		ctx.AbortWithStatusJSON(ex.Code, ex)

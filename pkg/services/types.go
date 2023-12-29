@@ -16,3 +16,10 @@ type AuthService interface {
 	Login(ctx context.Context, user *models.User) error
 	Authorize(ctx context.Context, tokenString string) (*models.User, error)
 }
+
+type DrugsService interface {
+	Create(ctx context.Context, drug *models.Drug) error
+	Update(ctx context.Context, drug *models.Drug) error
+	Delete(ctx context.Context, drug *models.Drug) error
+	Find(ctx context.Context) ([]models.Drug, error)
+}

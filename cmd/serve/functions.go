@@ -72,7 +72,8 @@ func ExecuteCmdFn(_ *cobra.Command, args []string) {
 	authService := services.NewDefaultAuthService(transactionHandler, tokenManager, passwordManager)
 	authEndpoint := endpoints.NewDefaultAuthEndpoint(authService)
 
-	drugsEndpoint := endpoints.NewDefaultDrugsEndpoint()
+	drugsService := services.NewDefaultDrugsService(transactionHandler)
+	drugsEndpoint := endpoints.NewDefaultDrugsEndpoint(drugsService)
 	vaccinationsEndpoint := endpoints.NewDefaultVaccinationsEndpoint()
 
 	// Rest Endpoints
@@ -81,7 +82,7 @@ func ExecuteCmdFn(_ *cobra.Command, args []string) {
 	loggerFilter := sloggin.New(logger.RetrieveLogger().(*slog.Logger).WithGroup("http"))
 
 	publicHandler := gin.New()
-	publicHandler.Use(loggerFilter, recoveryFilter)
+	publicHandler.Use(recoveryFilter, loggerFilter)
 	publicHandler.POST("/login", authEndpoint.Login)
 	publicHandler.POST("/signup", authEndpoint.Signup)
 	publicHandler.GET("/health", func(ctx *gin.Context) {

@@ -2,8 +2,9 @@ package services
 
 import (
 	"context"
-	"errors"
 
+	"github.com/google/uuid"
+	feather_commons_util "github.com/guidomantilla/go-feather-commons/pkg/util"
 	feather_security "github.com/guidomantilla/go-feather-security/pkg/security"
 	"gorm.io/gorm"
 
@@ -29,26 +30,14 @@ func (service *DefaultAuthService) Signup(ctx context.Context, user *models.User
 	return service.transactionHandler.HandleTransaction(ctx, func(ctx context.Context, tx *gorm.DB) error {
 
 		var err error
-		var dbUser models.User
-
-		err = tx.Where("email = ?", user.Email).First(&dbUser).Error
-		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-			return err
-		}
-
-		if dbUser.Email != nil {
-			return feather_security.ErrAccountExistingUsername
-		}
-
 		encodedPassword, err := service.passwordManager.Encode(*user.Password)
 		if err != nil {
 			return err
 		}
 
-		dbUser.Name, dbUser.Email, dbUser.Password = user.Name, user.Email, encodedPassword
-		tx.Save(dbUser)
-
-		return nil
+		user.Id = feather_commons_util.ValueToPtr(uuid.New().String())
+		user.Password = encodedPassword
+		return tx.Save(user).Error
 	})
 }
 
@@ -56,19 +45,19 @@ func (service *DefaultAuthService) Login(ctx context.Context, user *models.User)
 	return service.transactionHandler.HandleTransaction(ctx, func(ctx context.Context, tx *gorm.DB) error {
 
 		var err error
-		var dbUser models.User
+		var savedUser models.User
 
-		if err = tx.Where("email = ?", user.Email).First(&dbUser).Error; err != nil {
+		if err = tx.Where("email = ?", user.Email).First(&savedUser).Error; err != nil {
 			return feather_security.ErrAuthenticationFailed(err)
 		}
 
 		var needsUpgrade *bool
-		if needsUpgrade, err = service.passwordManager.UpgradeEncoding(*(dbUser.Password)); err != nil || *(needsUpgrade) {
+		if needsUpgrade, err = service.passwordManager.UpgradeEncoding(*(savedUser.Password)); err != nil || *(needsUpgrade) {
 			return feather_security.ErrAuthenticationFailed(feather_security.ErrAccountExpiredPassword)
 		}
 
 		var matches *bool
-		if matches, err = service.passwordManager.Matches(*(dbUser.Password), *user.Password); err != nil || !*(matches) {
+		if matches, err = service.passwordManager.Matches(*(savedUser.Password), *user.Password); err != nil || !*(matches) {
 			return feather_security.ErrAuthenticationFailed(feather_security.ErrAccountInvalidPassword)
 		}
 
@@ -90,12 +79,12 @@ func (service *DefaultAuthService) Authorize(ctx context.Context, tokenString st
 			return err
 		}
 
-		dbUser := &models.User{}
-		if err = tx.Where("email = ?", user.Email).First(dbUser).Error; err != nil {
+		var savedUser models.User
+		if err = tx.Where("email = ?", user.Email).First(&savedUser).Error; err != nil {
 			return feather_security.ErrAuthorizationFailed(err)
 		}
 
-		dbUser.Password, dbUser.Token = nil, &tokenString
+		savedUser.Password, savedUser.Token = nil, &tokenString
 		return nil
 	})
 
