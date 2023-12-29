@@ -2,7 +2,7 @@
 phony-goal: ; @echo $@
 
 build: validate
-	docker compose -f docker/docker-compose.yml up --detach
+	docker compose -f docker/docker-compose.yml -p vaccination-record-system  up --detach
 
 validate: generate sort-import format vet lint coverage
 
@@ -37,9 +37,6 @@ update-dependencies:
 	go get -u ./...
 	go get -t -u ./...
 	go mod tidy
-
-env-setup:
-	docker compose -f docker/docker-compose.yml -p vaccination-record-system  up --detach
 
 prepare:
 	go install github.com/kisielk/godepgraph@latest

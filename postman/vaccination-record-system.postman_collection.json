@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "3358805e-544e-4880-8ae1-b51258cb6194",
+		"name": "vaccination-record-system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4605123"
+	},
+	"item": [
+		{
+			"name": "POST /signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"root\",\n    \"email\": \"guido.mantilla@yahoo.com\",\n    \"password\": \"Raven123qweasd*+-456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var response = pm.response.json();",
+							"pm.collectionVariables.set('JWT-TOKEN', response.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"guido.mantilla@yahoo.com\",\n    \"password\": \"Raven123qweasd*+-456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/drugs",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"some drug 05\",\n    \"approved\": true,\n    \"min_dose\": 1,\n    \"max_dose\": 2,\n    \"available_at\": \"2024-01-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/drugs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"drugs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/drugs/:id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"some drug 01\",\n    \"approved\": false,\n    \"min_dose\": 1,\n    \"max_dose\": 2,\n    \"available_at\": \"2024-01-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/drugs/a26e3daf-4d4d-4ef5-87b4-454574ef72b8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"drugs",
+						"a26e3daf-4d4d-4ef5-87b4-454574ef72b8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/drugs/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/drugs/a26e3daf-4d4d-4ef5-87b4-454574ef72b8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"drugs",
+						"a26e3daf-4d4d-4ef5-87b4-454574ef72b8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/drugs/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/drugs/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"drugs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /api/vaccinations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"vaccination 06\",\n    \"drug_id\": \"35d418bf-1599-4303-bb2e-3536afa58d23\",\n    \"dose\": 2,\n    \"date\": \"2024-03-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/vaccinations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"vaccinations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /api/vaccination/:id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"vaccination 01\",\n    \"drug_id\": \"8d3a0357-3993-44c8-a2ec-ed519ee831e0\",\n    \"dose\": 2,\n    \"date\": \"2024-01-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/vaccinations/c555e527-f1f1-4cea-8463-3b63f903cdc2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"vaccinations",
+						"c555e527-f1f1-4cea-8463-3b63f903cdc2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /api/vaccination/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/vaccinations/c555e527-f1f1-4cea-8463-3b63f903cdc2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"vaccinations",
+						"c555e527-f1f1-4cea-8463-3b63f903cdc2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /api/vaccinations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/vaccinations/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"vaccinations",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{JWT-TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "JWT-TOKEN",
+			"value": ""
+		}
+	]
+}
