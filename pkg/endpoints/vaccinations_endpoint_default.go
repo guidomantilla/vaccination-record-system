@@ -1,6 +1,8 @@
 package endpoints
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type DefaultVaccinationsEndpoint struct {
 }

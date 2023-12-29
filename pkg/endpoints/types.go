@@ -1,13 +1,13 @@
 package endpoints
 
-import "github.com/gin-gonic/gin"
-
-var (
-	_ AuthPrincipalEndpoint = (*DefaultAuthPrincipalEndpoint)(nil)
+import (
+	"github.com/gin-gonic/gin"
 )
 
-type AuthPrincipalEndpoint interface {
+type AuthEndpoint interface {
+	Login(ctx *gin.Context)
 	Signup(ctx *gin.Context)
+	Authorize(ctx *gin.Context)
 }
 
 type DrugsEndpoint interface {

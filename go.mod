@@ -4,13 +4,17 @@ go 1.21.1
 
 require (
 	github.com/gin-gonic/gin v1.9.1
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/golang/mock v1.6.0
 	github.com/guidomantilla/go-feather-commons v0.70.0
 	github.com/guidomantilla/go-feather-security v0.70.0
 	github.com/guidomantilla/go-feather-web v0.70.0
+	github.com/orandin/slog-gorm v1.0.1
 	github.com/qmdx00/lifecycle v1.1.1
 	github.com/samber/slog-gin v1.7.1
 	github.com/spf13/cobra v1.8.0
+	gorm.io/driver/mysql v1.5.2
+	gorm.io/gorm v1.25.5
 )
 
 require (
@@ -27,6 +31,8 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect

@@ -10,6 +10,7 @@ type Config struct {
 	HttpPort             *string `env:"HTTP_PORT,default=8080"`
 	TokenSignatureKey    *string `env:"TOKEN_SIGNATURE_KEY,default=SecretYouShouldHide"`
 	TokenVerificationKey *string `env:"TOKEN_VERIFICATION_KEY,default=SecretYouShouldHide"`
+	TokenTimeout         *string `env:"TOKEN_TIMEOUT,default=24h"`
 	ParamHolder          *string `env:"PARAM_HOLDER,default=named"`
 	DatasourceDriver     *string `env:"DATASOURCE_DRIVER,required"`
 	DatasourceUsername   *string `env:"DATASOURCE_USERNAME,required"`
