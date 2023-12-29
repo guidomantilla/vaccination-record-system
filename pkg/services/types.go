@@ -23,3 +23,10 @@ type DrugsService interface {
 	Delete(ctx context.Context, drug *models.Drug) error
 	Find(ctx context.Context) ([]models.Drug, error)
 }
+
+type VaccinationsService interface {
+	Create(ctx context.Context, vaccination *models.Vaccination) error
+	Update(ctx context.Context, vaccination *models.Vaccination) error
+	Delete(ctx context.Context, vaccination *models.Vaccination) error
+	Find(ctx context.Context) ([]models.Vaccination, error)
+}

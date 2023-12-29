@@ -74,7 +74,9 @@ func ExecuteCmdFn(_ *cobra.Command, args []string) {
 
 	drugsService := services.NewDefaultDrugsService(transactionHandler)
 	drugsEndpoint := endpoints.NewDefaultDrugsEndpoint(drugsService)
-	vaccinationsEndpoint := endpoints.NewDefaultVaccinationsEndpoint()
+
+	vaccinationsService := services.NewDefaultVaccinationsService(transactionHandler)
+	vaccinationsEndpoint := endpoints.NewDefaultVaccinationsEndpoint(vaccinationsService)
 
 	// Rest Endpoints
 

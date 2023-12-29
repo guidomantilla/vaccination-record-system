@@ -21,3 +21,13 @@ type Drug struct {
 	AvailableAtAsString *string    `gorm:"-" json:"available_at,omitempty"`
 	AvailableAtAsDate   *time.Time `gorm:"column:available_at" json:"-"`
 }
+
+type Vaccination struct {
+	Id           *string    `gorm:"primaryKey" json:"id,omitempty"`
+	Name         *string    `gorm:"name" json:"name,omitempty"`
+	DrugId       *string    `gorm:"column:drugs_id" json:"drug_id,omitempty"`
+	Drug         *Drug      `gorm:"foreignKey:DrugId" json:"drug,omitempty"`
+	Dose         *int64     `gorm:"dose" json:"dose,omitempty"`
+	DateAsString *string    `gorm:"-" json:"date,omitempty"`
+	DateAsDate   *time.Time `gorm:"column:date" json:"-"`
+}

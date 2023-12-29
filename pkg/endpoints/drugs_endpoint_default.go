@@ -32,7 +32,7 @@ func (endpoint *DefaultDrugsEndpoint) Create(ctx *gin.Context) {
 		return
 	}
 
-	if errs := endpoint.validateCreate(drugToSave); errs != nil {
+	if errs := endpoint.validate(drugToSave); errs != nil {
 		ex := feather_web_rest.BadRequestException("error validating the object", errs...)
 		ctx.AbortWithStatusJSON(ex.Code, ex)
 		return
@@ -64,7 +64,7 @@ func (endpoint *DefaultDrugsEndpoint) Update(ctx *gin.Context) {
 		return
 	}
 
-	if errs := endpoint.validateCreate(drugToSave); errs != nil {
+	if errs := endpoint.validate(drugToSave); errs != nil {
 		ex := feather_web_rest.BadRequestException("error validating the object", errs...)
 		ctx.AbortWithStatusJSON(ex.Code, ex)
 		return
@@ -104,17 +104,17 @@ func (endpoint *DefaultDrugsEndpoint) Delete(ctx *gin.Context) {
 		return
 	}
 
-	drugToSave := &models.Drug{
+	drugToDelete := &models.Drug{
 		Id: &id,
 	}
 
-	if err = endpoint.drugsService.Delete(ctx.Request.Context(), drugToSave); err != nil {
+	if err = endpoint.drugsService.Delete(ctx.Request.Context(), drugToDelete); err != nil {
 		ex := feather_web_rest.UnauthorizedException(err.Error())
 		ctx.AbortWithStatusJSON(ex.Code, ex)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, drugToSave)
+	ctx.JSON(http.StatusOK, drugToDelete)
 }
 
 func (endpoint *DefaultDrugsEndpoint) Find(ctx *gin.Context) {
@@ -145,7 +145,7 @@ func (endpoint *DefaultDrugsEndpoint) Find(ctx *gin.Context) {
 
 //
 
-func (endpoint *DefaultDrugsEndpoint) validateCreate(drugToSave *models.Drug) []error {
+func (endpoint *DefaultDrugsEndpoint) validate(drugToSave *models.Drug) []error {
 
 	var errors []error
 
